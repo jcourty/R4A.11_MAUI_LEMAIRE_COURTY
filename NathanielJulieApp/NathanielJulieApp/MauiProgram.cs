@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using NathanielJulieApp.ViewModels;
+using NathanielJulieApp.Views;
 
 namespace NathanielJulieApp
 {
@@ -15,8 +17,20 @@ namespace NathanielJulieApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            // Enregistrement des ViewModels
+            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<Onglet1ViewModel>();
+            builder.Services.AddSingleton<onglet2ViewModel>();
+            builder.Services.AddSingleton<Onglet3ViewModel>();
+
+            // Enregistrement des Views
+            builder.Services.AddSingleton<MainView>();
+            builder.Services.AddSingleton<Onglet1View>();
+            builder.Services.AddSingleton<Onglet2View>();
+            builder.Services.AddSingleton<Onglet3View>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

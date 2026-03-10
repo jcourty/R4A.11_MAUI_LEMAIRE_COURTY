@@ -70,4 +70,22 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\Onglet2View.xaml.cs">
+	    <DependentUpon>Onglet2View.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Onglet1View.xaml.cs">
+	    <DependentUpon>Onglet1View.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Onglet3View.xaml.cs">
+	    <DependentUpon>Onglet3View.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="FavoritesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

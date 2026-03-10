@@ -3,12 +3,29 @@
     x:Class="NathanielJulieApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:NathanielJulieApp"
+    xmlns:views="clr-namespace:NathanielJulieApp.Views"
     Title="NathanielJulieApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Accueil"
+            ContentTemplate="{DataTemplate views:MainView}"
+            Route="MainView" />
+
+        <ShellContent
+            Title="onglet 1"
+            ContentTemplate="{DataTemplate views:Onglet1View}"
+            Route="onglet1View" />
+
+        <ShellContent
+            Title="onglet 2"
+            ContentTemplate="{DataTemplate views:Onglet2View}"
+            Route="onglet2View" />
+
+        <ShellContent
+            Title="onglet 3"
+            ContentTemplate="{DataTemplate views:Onglet3View}"
+            Route="onglet3View" />
+    </TabBar>
 
 </Shell>
