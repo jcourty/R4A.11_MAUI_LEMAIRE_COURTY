@@ -7,7 +7,7 @@ namespace NathanielJulieApp.Views
         public Onglet2View()
         {
             InitializeComponent();
-            BindingContext = new onglet2ViewModel();
+            BindingContext = new Onglet2ViewModel();
         }
     }
 }

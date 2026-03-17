@@ -2,9 +2,6 @@ using NathanielJulieApp.Core;
 
 namespace NathanielJulieApp.ViewModels
 {
-    /// <summary>
-    /// ViewModel pour la page d'accueil
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
         private int clickCount = 0;

@@ -20,7 +20,7 @@ namespace NathanielJulieApp
             // Enregistrement des ViewModels
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<Onglet1ViewModel>();
-            builder.Services.AddSingleton<onglet2ViewModel>();
+            builder.Services.AddSingleton<Onglet2ViewModel>();
             builder.Services.AddSingleton<Onglet3ViewModel>();
 
             // Enregistrement des Views
