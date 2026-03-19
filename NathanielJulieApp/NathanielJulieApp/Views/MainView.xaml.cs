@@ -9,13 +9,5 @@ namespace NathanielJulieApp.Views
             InitializeComponent();
             BindingContext = new MainViewModel();
         }
-
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            if (BindingContext is MainViewModel viewModel)
-            {
-                viewModel.OnCounterClicked();
-            }
-        }
     }
 }
