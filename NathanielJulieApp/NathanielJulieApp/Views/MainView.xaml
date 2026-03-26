@@ -9,10 +9,10 @@
             Padding="30,0"
             Spacing="25">
             <Image
-                Source="dotnet_bot.png"
+                Source="appicon.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a submarine number ten" />
+                SemanticProperties.Description="app icon" />
 
             <Label
                 Text="Hello, from the sky!"
@@ -24,7 +24,7 @@
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level3"/>
 
-            <Button Text="Click to see snoppy !"
+            <Button Text="Cliquez pour voir snoppy !"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Clicked="OnButtonClicked" />
