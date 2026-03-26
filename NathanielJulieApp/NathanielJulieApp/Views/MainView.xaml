@@ -15,10 +15,21 @@
                 SemanticProperties.Description="dot net bot in a submarine number ten" />
 
             <Label
-                Text="Hello, World!"
+                Text="Hello, from the sky!"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
-        </VerticalStackLayout>
+            
+            <Label
+                Text=" Cette appli va vous faire planer 😉!"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level3"/>
+
+            <Button Text="Click to see snoppy !"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="OnButtonClicked" />
+
+            </VerticalStackLayout>
     </ScrollView>
 
 </ContentPage>

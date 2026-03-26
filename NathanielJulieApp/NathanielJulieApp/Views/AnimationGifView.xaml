@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NathanielJulieApp.Views.AnimationGifView"
+             Title="Animation">
+
+    <VerticalStackLayout
+        Padding="30"
+        Spacing="20"
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+
+        <Image 
+            x:Name="gifImage"
+            Source="snopy_plane.gif" 
+            IsAnimationPlaying="True"
+            HeightRequest="200" 
+            WidthRequest="200" />
+
+        <Button 
+            x:Name="returnButton"
+            Text="Retour à l'accueil"
+            VerticalOptions="End"
+            HorizontalOptions="Center"
+            Clicked="OnReturnClicked"
+            IsEnabled="False" />
+
+    </VerticalStackLayout>
+
+</ContentPage>
