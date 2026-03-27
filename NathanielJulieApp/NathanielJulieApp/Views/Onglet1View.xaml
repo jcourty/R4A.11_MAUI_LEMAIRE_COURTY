@@ -4,15 +4,31 @@
              x:Class="NathanielJulieApp.Views.Onglet1View"
              Title="Recherche">
 
-    <VerticalStackLayout
-        Padding="20"
-        Spacing="15">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="20">
 
-        <Label
-            Text="Hello World One"
-            Style="{StaticResource Headline}"
-            SemanticProperties.HeadingLevel="Level1" />
+            <Label
+                Text="{Binding Titre}"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center" />
 
-    </VerticalStackLayout>
+            <Image
+                Source="{Binding Image}"
+                HeightRequest="250"
+                Aspect="AspectFit"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="{Binding Description}"
+                FontSize="16"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>
