@@ -15,7 +15,11 @@ namespace NathanielJulieApp.Services
             try
             {
                 string infosUrl = $"https://api.core.openaip.net/api/airports?search={search}&apiKey={ApiKey}";
+                System.Diagnostics.Debug.WriteLine($"Appel API: {infosUrl}");
+
                 var jsonResponse = await _httpClient.GetStringAsync(infosUrl);
+                System.Diagnostics.Debug.WriteLine($"Réponse API brute: {jsonResponse}");
+
                 var jsonNode = JsonNode.Parse(jsonResponse);
                 var items = jsonNode?["items"]?.AsArray();
 
@@ -31,12 +35,17 @@ namespace NathanielJulieApp.Services
                     if (coords != null && coords.Count >= 2)
                         coordonneesStr = $"Longitude {coords[0]}, Latitude {coords[1]}";
 
+                    System.Diagnostics.Debug.WriteLine($"Données parsées - Nom: {nom}, ICAO: {icao}, Alt: {altitude}");
                     return (nom, icao, altitude, coordonneesStr);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Aucun item trouvé dans la réponse");
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Erreur lors de l'appel à l'API Core : {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Erreur lors de l'appel à l'API Core : {ex.Message}\n{ex.StackTrace}");
             }
             return null;
         }

@@ -2,33 +2,102 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NathanielJulieApp.Views.Onglet1View"
-             Title="Recherche">
+             Title="Aéroports">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="20"
-            Spacing="20">
+    <Grid RowDefinitions="Auto,*,10,Auto,*" ColumnDefinitions="*" RowSpacing="0" Padding="10">
 
-            <Label
-                Text="{Binding Titre}"
-                FontSize="24"
-                FontAttributes="Bold"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center" />
+        <!-- Titre - Liste -->
+        <Label
+            Grid.Row="0"
+            Text="Liste des aéroports"
+            FontSize="18"
+            FontAttributes="Bold"
+            TextColor="#7B2CBF"
+            Margin="0,0,0,10" />
 
-            <Image
-                Source="{Binding Image}"
-                HeightRequest="250"
-                Aspect="AspectFit"
-                HorizontalOptions="Center" />
+        <!-- MASTER : CollectionView des aéroports -->
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Airports}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        BorderColor="#9D4EDD"
+                        CornerRadius="8"
+                        HasShadow="False"
+                        Padding="0"
+                        Margin="0,5">
+                        <StackLayout Padding="15" Spacing="5">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectAirportCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
+                            <Label
+                                Text="{Binding Name}"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                TextColor="#7B2CBF"
+                                LineBreakMode="WordWrap" />
+                            <Label
+                                Text="{Binding IcaoCode}"
+                                FontSize="12"
+                                TextColor="#666666" />
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-            <Label
-                Text="{Binding Description}"
-                FontSize="16"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center" />
+        <!-- Séparateur espacé -->
+        <BoxView
+            Grid.Row="2"
+            Color="#CCCCCC"
+            HeightRequest="1"
+            Margin="0,5" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <!-- Titre - Détails -->
+        <Label
+            Grid.Row="3"
+            Text="Détails"
+            FontSize="18"
+            FontAttributes="Bold"
+            TextColor="#7B2CBF"
+            Margin="0,10,0,10" />
+
+        <!-- DETAIL : Détails de l'aéroport sélectionné -->
+        <ScrollView Grid.Row="4" Padding="0">
+            <VerticalStackLayout Spacing="12" Padding="0,10,0,0">
+
+                <Label
+                    Text="{Binding Titre}"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    TextColor="#7B2CBF"
+                    LineBreakMode="WordWrap" />
+
+                <Image
+                    Source="{Binding Image}"
+                    HeightRequest="140"
+                    Aspect="AspectFit"
+                    HorizontalOptions="Center" />
+
+                <Frame
+                    BorderColor="#E0E0E0"
+                    CornerRadius="8"
+                    Padding="12"
+                    HasShadow="False">
+                    <Label
+                        Text="{Binding Description}"
+                        FontSize="13"
+                        LineBreakMode="WordWrap"
+                        TextColor="#333333" />
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
 
 </ContentPage>
