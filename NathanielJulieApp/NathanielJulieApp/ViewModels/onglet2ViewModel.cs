@@ -2,10 +2,8 @@ using NathanielJulieApp.Core;
 using NathanielJulieApp.Models;
 using NathanielJulieApp.Services;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Storage;
 
 namespace NathanielJulieApp.ViewModels
 {
@@ -20,70 +18,85 @@ namespace NathanielJulieApp.ViewModels
             set => SetProperty(ref _titre, value);
         }
 
-        private string _description;
-        public string Description
+        private string _icaoCode;
+        public string IcaoCode
         {
-            get => _description;
-            set => SetProperty(ref _description, value);
+            get => _icaoCode;
+            set => SetProperty(ref _icaoCode, value);
         }
 
-        private string _imageUrl;
-        public string ImageUrl
+        private string _longitude;
+        public string Longitude
         {
-            get => _imageUrl;
-            set => SetProperty(ref _imageUrl, value);
+            get => _longitude;
+            set => SetProperty(ref _longitude, value);
         }
 
-        public ICommand PickImageCommand { get; }
+        private string _latitude;
+        public string Latitude
+        {
+            get => _latitude;
+            set => SetProperty(ref _latitude, value);
+        }
+
+        private string _elevation;
+        public string Elevation
+        {
+            get => _elevation;
+            set => SetProperty(ref _elevation, value);
+        }
+
         public ICommand AddItemCommand { get; }
 
         public Onglet2ViewModel(SharedDataService sharedDataService)
         {
             _sharedDataService = sharedDataService;
             AddItemCommand = new Command(OnAddItem);
-            PickImageCommand = new Command(async () => await OnPickImageAsync());
-        }
-
-        private async Task OnPickImageAsync()
-        {
-            try
-            {
-                var result = await FilePicker.Default.PickAsync(new PickOptions
-                {
-                    PickerTitle = "Sélectionnez une image",
-                    FileTypes = FilePickerFileType.Images
-                });
-
-                if (result != null)
-                {
-                    ImageUrl = result.FullPath;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Utilisateur a annulé ou erreur de permission
-                System.Diagnostics.Debug.WriteLine($"Erreur au choix de l'image : {ex.Message}");
-            }
         }
 
         private void OnAddItem()
         {
             if (!string.IsNullOrWhiteSpace(Titre))
             {
+                // Valider les coordonnées
+                if (!double.TryParse(Longitude, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double lon) ||
+                    !double.TryParse(Latitude, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double lat))
+                {
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Application.Current?.MainPage?.DisplayAlert("Erreur", "Veuillez entrer des coordonnées valides", "OK");
+                    });
+                    return;
+                }
+
                 var newItem = new Airport
                 {
                     Name = Titre,
-                    IcaoCode = "PERSO",
-                    Coordinates = Description,
-                    Elevation = "N/A",
-                    MapImage = ImageSource.FromFile(string.IsNullOrWhiteSpace(ImageUrl) ? "dotnet_bot.png" : ImageUrl)
+                    IcaoCode = string.IsNullOrWhiteSpace(IcaoCode) ? "PERSO" : IcaoCode,
+                    Coordinates = $"Longitude {lon}, Latitude {lat}",
+                    Elevation = string.IsNullOrWhiteSpace(Elevation) ? "N/A" : Elevation,
+                    MapImage = ImageSource.FromFile("dotnet_bot.png")
                 };
 
                 _sharedDataService.AddItem(newItem);
 
                 Titre = string.Empty;
-                Description = string.Empty;
-                ImageUrl = string.Empty;
+                IcaoCode = string.Empty;
+                Longitude = string.Empty;
+                Latitude = string.Empty;
+                Elevation = string.Empty;
+
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Application.Current?.MainPage?.DisplayAlert("Succès", "Élément ajouté avec succès!", "OK");
+                });
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Application.Current?.MainPage?.DisplayAlert("Erreur", "Veuillez entrer un titre", "OK");
+                });
             }
         }
     }

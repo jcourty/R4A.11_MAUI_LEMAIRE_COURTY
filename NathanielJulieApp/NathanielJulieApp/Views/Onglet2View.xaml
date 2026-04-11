@@ -18,20 +18,23 @@
             Text="{Binding Titre}" />
             
         <Entry 
-            Placeholder="Description"
-            Text="{Binding Description}" />
+            Placeholder="Code ICAO"
+            Text="{Binding IcaoCode}" />
 
-        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
-            <Entry 
-                Grid.Column="0"
-                Placeholder="URL ou chemin de l'image (optionnel)"
-                Text="{Binding ImageUrl}" />
+        <Entry 
+            Placeholder="Longitude"
+            Text="{Binding Longitude}"
+            Keyboard="Numeric" />
 
-            <Button 
-                Grid.Column="1"
-                Text="Parcourir..."
-                Command="{Binding PickImageCommand}" />
-        </Grid>
+        <Entry 
+            Placeholder="Latitude"
+            Text="{Binding Latitude}"
+            Keyboard="Numeric" />
+
+        <Entry 
+            Placeholder="Altitude (optionnel)"
+            Text="{Binding Elevation}"
+            Keyboard="Numeric" />
 
         <Button 
             Text="Ajouter"
