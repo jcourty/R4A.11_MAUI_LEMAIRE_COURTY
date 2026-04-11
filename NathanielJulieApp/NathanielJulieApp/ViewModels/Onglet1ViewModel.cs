@@ -1,6 +1,7 @@
 using NathanielJulieApp.Core;
 using NathanielJulieApp.Models;
 using NathanielJulieApp.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -10,6 +11,17 @@ namespace NathanielJulieApp.ViewModels
 {
     public class Onglet1ViewModel : ViewModelBase
     {
+        // Méthodes pour convertir les coordonnées GPS en coordonnées de tuile (Zoom 12 par défaut)
+        private int LonToX(double lon, int zoom)
+        {
+            return (int)(Math.Floor((lon + 180.0) / 360.0 * (1 << zoom)));
+        }
+
+        private int LatToY(double lat, int zoom)
+        {
+            var latRad = lat * Math.PI / 180.0;
+            return (int)(Math.Floor((1.0 - Math.Log(Math.Tan(latRad) + 1.0 / Math.Cos(latRad)) / Math.PI) / 2.0 * (1 << zoom)));
+        }
         private ObservableCollection<Airport> _airports;
         public ObservableCollection<Airport> Airports
         {
@@ -53,9 +65,9 @@ namespace NathanielJulieApp.ViewModels
 
         public ICommand SelectAirportCommand { get; }
 
-        public Onglet1ViewModel()
+        public Onglet1ViewModel(SharedDataService sharedDataService)
         {
-            Airports = new ObservableCollection<Airport>();
+            Airports = sharedDataService.Items;
             SelectAirportCommand = new Command<Airport>(async (airport) => await SelectAirportAsync(airport));
             _ = LoadAirportsAsync();
         }
@@ -210,12 +222,36 @@ namespace NathanielJulieApp.ViewModels
 
                 System.Diagnostics.Debug.WriteLine($"Détails affichés: {SelectedAirport.Name}");
 
+                // Extraction des coordonnées pour charger l'image
+                int zoom = 12;
+                int x = 2077; // Cdg par défaut
+                int y = 1406;
+
+                try 
+                {
+                    if (!string.IsNullOrEmpty(SelectedAirport.Coordinates) && SelectedAirport.Coordinates.StartsWith("Longitude"))
+                    {
+                        var parts = SelectedAirport.Coordinates.Replace("Longitude", "").Replace("Latitude", "").Replace(" ", "").Split(',');
+                        if (parts.Length == 2 && 
+                            double.TryParse(parts[0], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double lon) && 
+                            double.TryParse(parts[1], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double lat))
+                        {
+                            x = LonToX(lon, zoom);
+                            y = LatToY(lat, zoom);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Erreur de calcul tuile: {ex.Message}");
+                }
+
                 // Charger l'image de carte
                 var service = new OpenAipService();
-                var mapTile = await service.GetMapTileAsync(12, 2077, 1406);
+                var mapTile = await service.GetMapTileAsync(zoom, x, y);
                 if (mapTile != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("Image de carte chargée depuis l'API");
+                    System.Diagnostics.Debug.WriteLine($"Image de carte chargée depuis l'API (z:{zoom}, x:{x}, y:{y})");
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
                         Image = ImageSource.FromStream(() => new System.IO.MemoryStream(mapTile));

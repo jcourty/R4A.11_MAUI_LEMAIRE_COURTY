@@ -9,10 +9,33 @@
         Spacing="15">
 
         <Label
-            Text="Hello World deux"
+            Text="Ajouter un élément"
             Style="{StaticResource Headline}"
             SemanticProperties.HeadingLevel="Level1" />
 
+        <Entry 
+            Placeholder="Titre"
+            Text="{Binding Titre}" />
+            
+        <Entry 
+            Placeholder="Description"
+            Text="{Binding Description}" />
+
+        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+            <Entry 
+                Grid.Column="0"
+                Placeholder="URL ou chemin de l'image (optionnel)"
+                Text="{Binding ImageUrl}" />
+
+            <Button 
+                Grid.Column="1"
+                Text="Parcourir..."
+                Command="{Binding PickImageCommand}" />
+        </Grid>
+
+        <Button 
+            Text="Ajouter"
+            Command="{Binding AddItemCommand}" />
 
     </VerticalStackLayout>
 

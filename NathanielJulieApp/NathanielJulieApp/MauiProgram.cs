@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using NathanielJulieApp.Services;
 using NathanielJulieApp.ViewModels;
 using NathanielJulieApp.Views;
 
@@ -16,6 +17,9 @@ namespace NathanielJulieApp
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            // Enregistrement des services
+            builder.Services.AddSingleton<SharedDataService>();
 
             // Enregistrement des ViewModels
             builder.Services.AddSingleton<MainViewModel>();
